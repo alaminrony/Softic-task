@@ -11,18 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transaction_histories', function (Blueprint $table) {
+        Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->string('transaction_id')->unique();
             $table->unsignedBigInteger('order_id')->nullable();
-            $table->unsignedBigInteger('customer_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->float('order_amount');
             $table->enum('status',['success','fail']);
             $table->string('payment_method');
             $table->timestamps();
 
 
-            $table->foreign('customer_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
 
             $table->index('order_id','customer_id');
@@ -35,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transaction_histories');
+        Schema::dropIfExists('transactions');
     }
 };

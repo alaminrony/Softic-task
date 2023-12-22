@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,4 +19,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('products',       [ProductController::class, 'productList']);
+
+
+Route::controller(TransactionController::class)->prefix('transaction')->group(function () {
+    Route::get('/create',           'create')->name('transaction.create');
+    Route::post('/store',           'store')->name('transaction.store');
+});
