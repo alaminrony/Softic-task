@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('customer_id')->nullable();
-            $table->string('payment_status')->default(App\Enums\PaymentStatus::UN_PAID);
-            $table->string('order_status')->default(App\Enums\OrderStatus::PENDING);
+            $table->string('payment_status')->default('unpaid');
+            $table->string('order_status')->default('pending');
             $table->string('payment_method')->nullable()->default('NULL');
             $table->unsignedBigInteger('transaction_id')->nullable()->unique();
 
@@ -36,8 +36,6 @@ return new class extends Migration
 
             // All forign key
             $table->foreign('customer_id')->references('id')->on('users');
-
-            $table->foreign('courier_id')->references('id')->on('courier_services');
 
             $table->index('customer_id');
             $table->index('payment_status');

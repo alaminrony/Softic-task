@@ -61,6 +61,7 @@ class UserRepository implements UserInterface
             $userStore->phone = $request->phone;
             $userStore->password = Hash::make($request->password);
             $userStore->status = $request->status;
+            $userStore->date_of_birth = $request->date_of_birth ?? '';
 
             if ($request->hasFile('image')) {
                 $upload = $this->uploadFile($request->image, 'backend/uploads/users/profile_', [], '', 'image'); // upload file and resize image 35x35
@@ -92,6 +93,7 @@ class UserRepository implements UserInterface
                 $userUpdate->password = Hash::make($request->password);
             }
             $userUpdate->status = $request->status;
+            $userUpdate->date_of_birth = $request->date_of_birth ?? '';
 
             if ($request->hasFile('image')) {
                 $upload = $this->uploadFile($request->image, 'backend/uploads/users/profile_', [], $userUpdate->image_id, 'image'); // upload file and resize image 35x35
@@ -117,29 +119,11 @@ class UserRepository implements UserInterface
         try {
 
             $user = $this->model->find($id);
-            $upload = $this->deleteFile($user->image_id, 'delete'); // delete file from storage
-            if (!$upload['status']) {
-                return $this->responseWithError($upload['message'], [], 400); // return error response
-            }
             $user->delete();
             return $this->responseWithSuccess(___('alert.User_deleted_successfully'));
         } catch (\Throwable $th) {
             return $this->responseWithError($th->getMessage(), [], 400);
         }
     }
-
-    public function passwordUpdate(PasswordUpdateRequest $request, $id)
-    {
-        try {
-            $userUpdate = $this->model->findOrfail($id);
-            $userUpdate->password = Hash::make($request->password);
-            $userUpdate->save();
-            return $this->responseWithSuccess(___('alert.User password update successfully'));
-        } catch (\Throwable $th) {
-            return $this->responseWithError($th->getMessage(), [], 400);
-        }
-    }
-
-    // instructor start
 
 }

@@ -78,27 +78,4 @@ class UserController extends Controller
         }
     }
 
-
-
-    public function status(Request $request)
-    {
-
-        if ($request->type == 'active') {
-            $request->merge([
-                'status' => 1,
-            ]);
-            $this->user->status($request);
-        }
-
-        if ($request->type == 'inactive') {
-            $request->merge([
-                'status' => 0,
-            ]);
-            $this->user->status($request);
-        }
-
-        return response()->json(["message" => __("Status update successful")], Response::HTTP_OK);
-    }
-
-
 }

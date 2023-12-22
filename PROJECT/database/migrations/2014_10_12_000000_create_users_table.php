@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('email', 80)->unique()->nullable()->default('NULL');
             $table->timestamp('email_verified_at')->nullable()->comment('null = not verified');
             $table->string('password');
+            $table->timestamp('date_of_birth')->nullable();
 
             $table->string('street_address', 250)->nullable()->default('NULL');
             $table->string('country')->nullable()->default('NULL');
@@ -31,9 +32,6 @@ return new class extends Migration
             $table->tinyInteger('is_phone_verified')->default('0');
             $table->tinyInteger('is_email_verified')->default('0');
             $table->integer('created_by')->nullable();
-
-            $table->unsignedBigInteger('image_id')->nullable();
-            $table->foreign('image_id')->references('id')->on('uploads')->onDelete('set null');
 
             // Roles Define in  app\Enums\Role.php 'SUPER_ADMIN','ADMIN','SELLER', 'CUSTOMER'
             $table->unsignedBigInteger('role_id')->nullable();
@@ -48,7 +46,7 @@ return new class extends Migration
             $table->index(['name']);
         });
 
-        
+
     }
 
     /**

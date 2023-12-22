@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('transaction_histories', function (Blueprint $table) {
             $table->id();
+            $table->string('transaction_id')->unique();
             $table->unsignedBigInteger('order_id')->nullable();
             $table->unsignedBigInteger('customer_id')->nullable();
-            $table->string('transaction_ref_id')->nullable();
             $table->float('order_amount');
             $table->enum('status',['success','fail']);
             $table->string('payment_method');
